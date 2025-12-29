@@ -246,6 +246,8 @@ const AllOrders = () => {
 
     const handleCompleteOrder = (order) => {
         setOrderToUpdate(order);
+        console.log(order);
+        
         setShowStatusModal(true);
     };
 
