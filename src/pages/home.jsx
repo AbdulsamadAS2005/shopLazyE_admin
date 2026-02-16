@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LatestAdmin from '../components/LatestAdmin';
 import { Package, ShoppingCart, Shield, Clock, LogOut } from 'lucide-react';
 const apiURL = import.meta.env.VITE_Backend;
 
@@ -8,9 +9,9 @@ const Home = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [error,setError]=useState(false)
+  const [error, setError] = useState(false)
   const [timeLeft, setTimeLeft] = useState(7200);
-  const [data,setData]=useState()
+  const [data, setData] = useState()
 
   useEffect(() => {
     checkAuth();
@@ -36,22 +37,22 @@ const Home = () => {
     }
   }, [isAuthenticated]);
 
-  const handleData=async()=>{
+  const handleData = async () => {
     try {
-      let response=await fetch(`${apiURL}/adminHomePage`,{
-        method:"GET",
-        headers:{
-          "Content-Type":"application/json"
+      let response = await fetch(`${apiURL}/adminHomePage`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
         }
       })
-      let data=await response.json();
-      if(response.status==200){
-        setData(data=data);
-      
+      let data = await response.json();
+      if (response.status == 200) {
+        setData(data = data);
+
       }
     } catch (error) {
-      console.log("error",error);
-      
+      console.log("error", error);
+
     }
   }
 
@@ -60,7 +61,7 @@ const Home = () => {
     if (authData) {
       const { token, expiry } = JSON.parse(authData);
       const now = Date.now();
-      
+
       if (token === 'abdulsamad@1212' && now < expiry) {
         setIsAuthenticated(true);
         const remaining = Math.floor((expiry - now) / 1000);
@@ -110,7 +111,7 @@ const Home = () => {
   };
 
   if (!isAuthenticated && showPasswordModal) {
-    return <PasswordModal 
+    return <PasswordModal
       password={password}
       setPassword={setPassword}
       onSubmit={handlePasswordSubmit}
@@ -130,7 +131,7 @@ const Home = () => {
             </h1>
             <p className="welcome-text">Welcome back, Administrator</p>
           </div>
-          
+
           <div className="header-right">
             <div className="session-timer">
               <Clock className="clock-icon" />
@@ -145,6 +146,14 @@ const Home = () => {
             </button>
           </div>
         </div>
+        <div className="container-latest">
+          <div className="main-actions-latest">
+            <h2 className="section-title-latest">System Configuration</h2>
+            <p className="section-subtitle-latest">Manage application settings and values</p>
+
+            <LatestAdmin />
+          </div>
+        </div>
 
         {/* Stats Cards */}
         <div className="stats-grid">
@@ -153,10 +162,10 @@ const Home = () => {
               <div>
                 <p className="stat-label">Total Products</p>
                 {
-                  data?
-                  <p className="stat-value">{data.totalProducts}</p>
-                  :
-                  <div className="spinner"></div>
+                  data ?
+                    <p className="stat-value">{data.totalProducts}</p>
+                    :
+                    <div className="spinner"></div>
                 }
               </div>
               <div className="stat-icon-container">
@@ -170,10 +179,10 @@ const Home = () => {
               <div>
                 <p className="stat-label">Total Orders</p>
                 {
-                  data?
-                  <p className="stat-value">{data.pendingOrders}</p>
-                  :
-                  <div className="spinner"></div>
+                  data ?
+                    <p className="stat-value">{data.pendingOrders}</p>
+                    :
+                    <div className="spinner"></div>
                 }
               </div>
               <div className="stat-icon-container">
@@ -186,10 +195,10 @@ const Home = () => {
               <div>
                 <p className="stat-label">New Arrivals</p>
                 {
-                  data?
-                  <p className="stat-value">{data.newArrivals}</p>
-                  :
-                  <div className="spinner"></div>
+                  data ?
+                    <p className="stat-value">{data.newArrivals}</p>
+                    :
+                    <div className="spinner"></div>
                 }
               </div>
               <div className="stat-icon-container">
@@ -203,17 +212,17 @@ const Home = () => {
               <div>
                 <p className="stat-label">Best Sellers</p>
                 {
-                  data?
-                  <p className="stat-value">{data.bestSellers}</p>
-                  :
-                  <div className="spinner"></div>
+                  data ?
+                    <p className="stat-value">{data.bestSellers}</p>
+                    :
+                    <div className="spinner"></div>
                 }
               </div>
               <div className="stat-icon-container">
                 <div className="users-icon">👥</div>
               </div>
             </div>
-            
+
           </div>
         </div>
 
@@ -221,9 +230,9 @@ const Home = () => {
         <div className="main-actions">
           <h2 className="section-title">Quick Access</h2>
           <p className="section-subtitle">Manage your store efficiently</p>
-          
+
           <div className="action-cards-grid">
-            <div 
+            <div
               className="action-card"
               onClick={() => navigate('/all-products')}
             >
@@ -239,7 +248,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div 
+            <div
               className="action-card"
               onClick={() => navigate('/allorders')}
             >
@@ -261,19 +270,19 @@ const Home = () => {
   );
 }
 const PasswordModal = ({ password, setPassword, onSubmit, error, }) => {
-  
+
   return (
     <div className="password-modal-overlay">
-      <div className={`wrong-pass ${error? "showwrong-pass":"hidewrong-pass"}`}>
+      <div className={`wrong-pass ${error ? "showwrong-pass" : "hidewrong-pass"}`}>
         <p>Incorrect password. Please try again.</p>
       </div>
-      <div className="password-modal"> 
+      <div className="password-modal">
         <div className="modal-header">
           <Shield className="modal-shield-icon" />
           <h2 className="modal-title">Admin Access Required</h2>
           <p className="modal-subtitle">Enter password to access the admin panel</p>
         </div>
-        
+
         <form onSubmit={onSubmit} className="password-form">
           <div className="form-group">
             <label className="form-label">Password</label>
@@ -286,12 +295,12 @@ const PasswordModal = ({ password, setPassword, onSubmit, error, }) => {
               autoFocus
             />
           </div>
-          
+
           <button type="submit" className="submit-btn">
             Access Dashboard
           </button>
         </form>
-        
+
         <div className="modal-footer">
           <p className="security-note">
             ⚠️ This session will expire in 2 hours for security purposes
