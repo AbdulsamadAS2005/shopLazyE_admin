@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LatestAdmin from '../components/LatestAdmin';
+import LatestAdmin from './LatestAdmin';
 import { Package, ShoppingCart, Shield, Clock, LogOut } from 'lucide-react';
 const apiURL = import.meta.env.VITE_Backend;
 
